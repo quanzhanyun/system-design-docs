@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - uses: pnpm/action-setup@v4 # docs https://pnpm.io/continuous-integration#github-actions
+        with:
+            version: latest  # Optional: specify a pnpm version
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
