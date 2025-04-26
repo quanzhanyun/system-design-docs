@@ -1,3 +1,22 @@
 # 数据字典
 
 ## user(用户表)
+
+| Name                    | Type          | Relation With | Description         |
+| ----------------------- | ------------- | ------------- | ------------------- |
+| username                | Text          |               | 用户名。默认同邮箱           |
+| email                   | Email         |               |                     |
+| provider                | Text          |               |                     |
+| password                | Password      |               |                     |
+| resetPasswordToken      | Text          |               |                     |
+| confirmationToken       | Text          |               | 邮箱确认码               |
+| confirmed               | Boolean       |               | 邮箱是否已确认             |
+| blocked                 | Boolean       |               | 是否被禁                |
+| role                    | Relation      | Role          | 角色。默认 Authenticated |
+| avatar                  | Media(single) |               | 头像                  |
+| mobile                  | Text          |               | 手机号                 |
+| mobileConfirmed         | Boolean       |               | 手机号是否已确认            |
+| mobileConfirmationToken | Text          |               | 手机号确认码              |
+| balance                 | Number(float) |               | 余额                  |
+| signInLogs              | Relation      | Sign In Log   | 关联登录日志              |
+| tickets                 | Relation      | Ticket        | 关联工单                |
