@@ -1,6 +1,6 @@
 # 数据字典
 
-## user(用户表)
+## User(用户表)
 
 | Name                    | Type          | Relation With | Description         |
 | ----------------------- | ------------- | ------------- | ------------------- |
@@ -20,3 +20,14 @@
 | balance                 | Number(float) |               | 余额                  |
 | signInLogs              | Relation      | Sign In Log   | 关联登录日志              |
 | tickets                 | Relation      | Ticket        | 关联工单                |
+
+## Sign In Log(用户登录日志表)
+
+| Name     | Type     | Relation With | Description |
+| -------- | -------- | ------------- | ----------- |
+| ip       | Text     |               |             |
+| location | Text     |               |             |
+| browser  | Text     |               |             |
+| device   | Text     |               |             |
+| user     | Relation | User          |             |
+
