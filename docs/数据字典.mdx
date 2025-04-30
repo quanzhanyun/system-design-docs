@@ -4,9 +4,9 @@
 
 | Name                    | Type          | Relation With | Description         |
 | ----------------------- | ------------- | ------------- | ------------------- |
-| username                | Text          |               | 用户名。默认同邮箱           |
+| username                | Text          |               | 用户名。默认同邮箱     |
 | email                   | Email         |               |                     |
-| provider                | Text          |               |                     |
+| provider                | Text          |               | 验证模式，默认Email   |
 | password                | Password      |               |                     |
 | resetPasswordToken      | Text          |               |                     |
 | confirmationToken       | Text          |               | 邮箱确认码               |
@@ -17,9 +17,13 @@
 | mobile                  | Text          |               | 手机号                 |
 | mobileConfirmed         | Boolean       |               | 手机号是否已确认            |
 | mobileConfirmationToken | Text          |               | 手机号确认码              |
+| amount                  | Number(float) |               | 充值总额                  |
 | balance                 | Number(float) |               | 余额                  |
 | signInLogs              | Relation      | Sign In Log   | 关联登录日志              |
 | tickets                 | Relation      | Ticket        | 关联工单                |
+| vivoices                | Relation      | Invoice       | 关联发票表                |
+| invoiceTitles           | Relation      | Invoice Title | 关联发票抬头表                |
+| agentId                 | UID           |               | 关联的代理商ID。代理商信息存放于独立的数据库中 |
 
 ## Sign In Log(用户登录日志表)
 
@@ -58,6 +62,9 @@
 | invoiceStatus | Enumeration   |               | 状态：pending \| complete |
 | link          | Text          |               | 下载地址                   |
 | user          | Relation      | User          |                          |
+
+注意：由于 Invoice Title 表中的条目可以修改、删除，因此 Invoice 表不便于通过 Relation
+字段关联 Invoice Title 表，并且发票开具之后就不可再变更了，因此只要记录发票的 title 即可。
 
 ## Invoice Title（发票抬头表）
 
