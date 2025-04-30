@@ -48,3 +48,26 @@
 | ------- | ------------ | ------------- | ----------- |
 | content | Text         |               |             |
 | images  | Media(multi) |               |             |
+
+## Invoice（发票表）
+
+| Name          | Type          | Relation With | Description            |
+| ------------- | ------------- | ------------- | ---------------------- |
+| title         | Text          |               | 发票抬头（复制自Invoice Title表）   |
+| amount        | Number（float） |               | 开票金额                   |
+| invoiceStatus | Enumeration   |               | 状态：pending \| complete |
+| link          | Text          |               | 下载地址                   |
+| user          | Relation      | User          |                          |
+
+## Invoice Title（发票抬头表）
+
+| Name        | Type        | Relation With | Description            |
+| ----------- | ----------- | ------------- | ---------------------- |
+| type        | Enumeration |               | 抬头类型（必填）：person \| company |
+| name        | Text        |               | 姓名或公司名称（必填）            |
+| cid         | Text        |               | （公司）纳税人识别号（公司必填）  |
+| address     | Text        |               | 公司地址                   |
+| bankName    | Text        |               | 银行名称                   |
+| bankAccount | Text        |               | 公司账户                   |
+| telephone   | Text        |               | 电话                     |
+| user        | Relation    | User          |                          |
