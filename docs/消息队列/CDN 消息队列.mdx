@@ -1,6 +1,15 @@
 # CDN 消息队列
 
 - 队列名：cdn-厂商名
-- 厂商名：ali baidu | tengxun | huoshan | baishan | huawei |
+- 厂商名：ali | baidu | tengxun | huoshan | baishan | huawei |
 - 消息名/消息类型：modify | add | delete
-- 消息体：`{}`
+- 消息体：
+```
+{
+	documentId,
+	data: {
+		domain,
+		...
+	}
+}
+```
