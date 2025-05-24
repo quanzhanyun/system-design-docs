@@ -1,0 +1,11 @@
+# task（消息队列任务表）
+
+
+| Name | Type | Relation With | Description |
+|------|------|---------------|-------------|
+| type | Enumeration | domain \| dns \| sms \| email 等等 | 任务类型 |
+| params | JSON | | 任务参数 |
+| taskStatus | Enumeration | | pending \| complete \| error |
+| returnValue | JSON | | 任务结果（无论成功与否都要保存结果） |
+| user        | Relation    | User          |                          |
+
