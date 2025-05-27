@@ -1,27 +1,19 @@
 # CDN 消息队列
 
-厂商名：
-
-- baidu
-- baishan
-- huawei
-
 队列：
 
-- 队列名：cdn_<厂商名>
-- 消息名： UUID
+- 队列名：cdn_\<[厂商名](../厂商名称.mdx)>
+- 消息名： actionName(执行的操作名称)
 - 消息体：
-  - find 与操作有关的实体信息
-  - action 操作名称
-  - request 与操作相关的所有参数
+  - find: 与操作有关的实体信息
+  - request: 与操作相关的所有参数
 
-```
+```json
 {
 	find: {
 		id: '',
 		taskId: '',
 	},
-	action: '<action_name>',
 	request: {
 		domain: '',
 	}
