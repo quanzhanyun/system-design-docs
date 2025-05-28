@@ -1,5 +1,37 @@
 # 百度队列
 
+## 公共参数
+
+公共参数表示提交队列时，它在所有或多数的提交中都需要传递的
+
+### taskId*
+
+用于回写 Task 的处理情况，这是必须要传递的
+
+find 示例:
+
+- taskId Task 表的 ID
+
+```
+{
+    taskId: 'xxxxxx'
+}
+```
+
+### domainId
+
+用于回写到 cdn 的状态或数据，可选
+
+find 示例:
+
+- domainId cdn 表的 ID
+
+```
+{
+    domainId: 'xxxxxx'
+}
+```
+
 ## 域名操作接口
 
 ### 查询域名是否可添加
@@ -27,9 +59,34 @@ response 示例:
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/qjwvyexh6)
 
-### 
+### 查询域名是否备案
+
+action: check_domain_icp
+
+request 示例:
+
+- domain 被查询的域名
+
+```
+{
+    domain: 'www.example.com',
+}
+```
+
+response 示例:
+
+```
+{
+    IcpStatus: false
+}
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/lk3qqkfag)
 
 ### 创建加速域名接口
+
+find:
+- domainId 回写域名信息
 
 action: create_cdn_domain
 
@@ -41,11 +98,11 @@ request 示例:
 
 ```
 {
-    "domain": 'www.example.com',
-    "origin": [{
-        'peer': 'https://171.107.86.35:443'
+    domain: 'www.example.com',
+    origin: [{
+        peer: 'https://171.107.86.35:443'
     }],
-    "form": "default"
+    form: 'default'
 }
 ```
 
@@ -60,3 +117,4 @@ response 示例:
 ```
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/gjwvyex4o)
+
