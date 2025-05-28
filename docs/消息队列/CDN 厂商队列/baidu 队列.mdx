@@ -1,0 +1,62 @@
+# 百度队列
+
+## 域名操作接口
+
+### 查询域名是否可添加
+
+action: check_domain_valid
+
+request 示例:
+
+- domain 被查询的域名
+
+```
+{
+    domain: 'www.example.com',
+}
+```
+
+response 示例:
+
+```
+{
+    isValid: true,
+    message: 'the domain is valid'
+}
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/qjwvyexh6)
+
+### 
+
+### 创建加速域名接口
+
+action: create_cdn_domain
+
+request 示例:
+
+- domain 表示需要创建 CDN 的加速域名
+- origin 源站配置
+    - peer 格式为 `${protocol}://${address}:${port}`
+
+```
+{
+    "domain": 'www.example.com',
+    "origin": [{
+        'peer': 'https://171.107.86.35:443'
+    }],
+    "form": "default"
+}
+```
+
+response 示例:
+
+```
+{
+    insId: 'xxx-xxx',
+    status: 'OPERATING',
+    cname: 'test.baidu.com.a.bdydns.com'
+}
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/gjwvyex4o)
