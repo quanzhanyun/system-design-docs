@@ -83,6 +83,45 @@ response 示例:
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/lk3qqkfag)
 
+### 查询域名归属权验证方法
+
+action: get_domain_how_to_verify
+
+request 示例:
+
+- domain 被查询的域名
+
+```
+{
+    domain: 'www.example.com',
+}
+```
+
+response 示例:
+
+```
+{
+    "howToVerify": [
+        {
+            "domain": "test.baidu.com",
+            "type": "DNS_TXT",
+            "details":[
+                {
+                    "verifyDomain": "bdy-verify.test.baidu.com",
+                    "targetTxt": "71bcf6de-fbc1bc1d"
+                },
+                {
+                    "verifyDomain": "bdy-verify.baidu.com",
+                    "targetTxt": "71bcf6de-00876282"
+                }
+            ]
+        }
+    ]
+}
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/ml4xy0cpb)
+
 ### 创建加速域名接口
 
 find:
@@ -162,7 +201,7 @@ response 示例:
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/Jjwvyexv8)
 
-### 启用加速域名接口
+### 删除加速域名接口
 
 action: delete_cdn_domain
 
