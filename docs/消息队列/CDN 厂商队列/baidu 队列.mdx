@@ -249,3 +249,46 @@ response 示例:
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/2jwvyf39o)
 
+### 缓存配置接口
+
+#### 设置缓存过期规则
+
+action: configCacheTTL
+
+request 示例:
+
+- domain 需要查询CDN的加速域名
+- cacheTTL 缓存规则列表
+
+```
+{
+    domain: 'www.example.com',
+    cacheTTL: [
+        {
+            "type": "suffix",
+            "value": ".php;.jsp;.asp",
+            "ttl": 0,
+            "weight": 3,
+            "overrideOrigin": true
+        },
+        {
+            "type": "path",
+            "value": "/",
+            "ttl": 2592000,
+            "weight": 1,
+            "overrideOrigin": false
+        }
+    ]
+}
+```
+
+response 示例:
+
+```
+{
+    "status": "RUNNING"
+}
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/wjxzhgxnx)
+
