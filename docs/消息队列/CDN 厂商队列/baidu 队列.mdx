@@ -233,7 +233,7 @@ action: getDomainConfig
 
 request 示例:
 
-- domain 需要查询CDN的加速域名
+- domain 需要查询 CDN 的加速域名
 
 ```
 {
@@ -257,7 +257,7 @@ action: configCacheTTL
 
 request 示例:
 
-- domain 需要查询CDN的加速域名
+- domain 需要查询 CDN 的加速域名
 - cacheTTL 缓存规则列表
 
 ```
@@ -292,3 +292,24 @@ response 示例:
 
 [阅读更多](https://cloud.baidu.com/doc/CDN/s/wjxzhgxnx)
 
+#### 查询缓存过期规则
+
+action: getConfigCacheTTL
+
+request 示例:
+
+- domain 需要查询 CDN 的加速域名
+
+```
+{
+    domain: 'www.example.com',
+}
+```
+
+response 示例:
+
+```
+// 暂无
+```
+
+[阅读更多](https://cloud.baidu.com/doc/CDN/s/ljxzhl9bu)
