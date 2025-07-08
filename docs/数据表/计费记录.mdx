@@ -1,15 +1,12 @@
 # BillingRecord（计费记录）
 
-| 名称        | 类型     | 描述       |
-| ----------- | -------- | ---------- |
-| user        | -        | 关联的用户 |
-| usageAmount | bigint   | 使用量     |
-| amount      | decimal  | 总价       |
-| billTime    | datetime | 计费时间   |
-|             | -        | 单价       |
-| status      | enum     | 结清状态   |
-|             | string   | 附加描述   |
-
+| Name        | Type        | Relation With | Description |
+| ----------- | ----------- | ------------- | ----------- |
+| usageAmount | Number      |               | 使用量         |
+| amount      | Number      |               | 总价          |
+| billTime    | Date        |               | 计费时间        |
+| status      | Enumeration |               | 结清状态        |
+| user        | Relation    | User          |             |
 
 
 这里是按量计费的记录

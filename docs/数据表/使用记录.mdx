@@ -1,14 +1,12 @@
 # ResourceRecord （使用记录）
 
-## 字段
-
-| 名称            | 类型     | 描述         |
-| --------------- | -------- | ------------ |
-| domain          | -        | 关联的域名   |
-| resourcePackage | -        | 关联的资源包 |
-| usageAmount     | bigint   | 使用量       |
-| usageTime       | datetime | 使用时间     |
-| area            | enum     | 使用区域     |
+| Name            | Type        | Relation With | Description         |
+| --------------- | ----------- | ------------- | ------------------- |
+| domain          | Relation    | cdn_domains   | 关联的[域名](./域名.mdx)   |
+| resourcePackage | Relation    |               | 关联的[资源包](./资源包.mdx) |
+| usageAmount     | Number      |               | 使用量                 |
+| usageTime       | Date        |               | 使用时间<br>            |
+| area            | Enumeration |               | 使用区域                |
 
 
 这里是资源包的使用记录
