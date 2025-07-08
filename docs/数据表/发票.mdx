@@ -1,0 +1,35 @@
+# Invoice（发票表）
+
+| Name          | Type          | Relation With | Description            |
+| ------------- | ------------- | ------------- | ---------------------- |
+| name        | Text        |               | 姓名或公司名称（必填）            |
+| cid         | Text        |               | （公司）纳税人识别号（公司必填）  |
+| address     | Text        |               | 公司地址                   |
+| bankName    | Text        |               | 银行名称                   |
+| bankAccount | Text        |               | 公司账户                   |
+| telephone   | Text        |               | 电话                     |
+| email       | Text        |               | 接收邮箱                     |
+| invoiceType | Enumeration |               | 发票类型（必填）：pupiao \| zhuanpiao |
+| amount        | Number（float） |              | 开票金额                   |
+| invoiceStatus | Enumeration   |               | 状态：pending \| resolve \| reject |
+| link          | Text          |               | 下载地址                   |
+| user          | Relation      | User          |                          |
+
+注意：由于 Invoice Title 表中的条目可以修改、删除，因此 Invoice 表不便于通过 Relation
+字段关联 Invoice Title 表，并且发票开具之后就不可再变更了，因此只要记录发票的 title 即可。
+
+# Invoice Title（发票抬头表）
+
+| Name        | Type        | Relation With | Description            |
+| ----------- | ----------- | ------------- | ---------------------- |
+| type        | Enumeration |               | 抬头类型（必填）：person \| company |
+| name        | Text        |               | 姓名或公司名称（必填）            |
+| cid         | Text        |               | （公司）纳税人识别号（公司必填）  |
+| address     | Text        |               | 公司地址                   |
+| bankName    | Text        |               | 银行名称                   |
+| bankAccount | Text        |               | 公司账户                   |
+| telephone   | Text        |               | 电话                     |
+| email       | Text        |               | 接收邮箱                     |
+| invoiceType | Enumeration |               | 发票类型（必填）：pupiao \| zhuanpiao |
+| user        | Relation    | User          |                          |
+| isDefault   | Boolean     |               | 是否为默认               |

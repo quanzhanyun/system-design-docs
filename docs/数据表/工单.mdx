@@ -1,0 +1,16 @@
+# Ticket（工单表）
+
+| Name     | Type     | Relation With | Description |
+| -------- | -------- | ------------- | ----------- |
+| title    | Text     |               |             |
+| ticketStatus | Enumeration |           | 状态       |
+| priority | Enumeration |               | 优先级      |
+| messages | Relation | Ticket Messages |             |
+| user     | Relation | User          |             |
+
+# Ticket Message（工单对话表）
+
+| Name    | Type         | Relation With | Description |
+| ------- | ------------ | ------------- | ----------- |
+| content | Text         |               |             |
+| images  | Media(multi) |     
