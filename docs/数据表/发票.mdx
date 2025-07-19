@@ -1,19 +1,19 @@
 # Invoice（发票表）
 
-| Name          | Type             | Relation With | Description       |           |        |
-|---------------|------------------|---------------|-------------------|-----------|--------|
-| name          | Text(short text) |               | 姓名或公司名称（必填）       |           |        |
-| cid           | Text(short text) |               | （公司）纳税人识别号（公司必填）  |           |        |
-| address       | Text(short text) |               | 公司地址              |           |        |
-| bankName      | Text(short text) |               | 银行名称              |           |        |
-| bankAccount   | Text(short text) |               | 公司账户              |           |        |
-| telephone     | Text(short text) |               | 电话                |           |        |
-| email         | Text(short text) |               | 接收邮箱              |           |        |
-| invoiceType   | Enumeration      |               | 发票类型（必填）：pupiao \ | zhuanpiao |        |
-| amount        | Number(float)    |               | 开票金额              |           |        |
-| invoiceStatus | Enumeration      |               | 状态：pending \      | resolve \ | reject |
-| link          | Text(long text)  |               | 下载地址              |           |        |
-| user          | Relation         | User          |                   |           |        |
+| Name          | Type             | Relation With | Description       |
+|---------------|------------------|---------------|-------------------|
+| name          | Text(short text) |               | 姓名或公司名称（必填）       |
+| cid           | Text(short text) |               | （公司）纳税人识别号（公司必填）  |
+| address       | Text(short text) |               | 公司地址              |
+| bankName      | Text(short text) |               | 银行名称              |
+| bankAccount   | Text(short text) |               | 公司账户              |
+| telephone     | Text(short text) |               | 电话                |
+| email         | Text(short text) |               | 接收邮箱              |
+| invoiceType   | Enumeration      |               | 发票类型（必填）：pupiao \| zhuanpiao |
+| amount        | Number(float)    |               | 开票金额              |
+| invoiceStatus | Enumeration      |               | 状态：pending \| resolve \| reject |
+| link          | Text(long text)  |               | 下载地址              |
+| user          | Relation         | User          |                   |
 
 
 注意：由于 Invoice Title 表中的条目可以修改、删除，因此 Invoice 表不便于通过 Relation
@@ -21,16 +21,16 @@
 
 # Invoice Title（发票抬头表）
 
-| Name        | Type             | Relation With | Description       |           |
-|-------------|------------------|---------------|-------------------|-----------|
-| type        | Enumeration      |               | 抬头类型（必填）：person \ | company   |
-| name        | Text(short text) |               | 姓名或公司名称（必填）       |           |
-| cid         | Text(short text) |               | （公司）纳税人识别号（公司必填）  |           |
-| address     | Text(short text) |               | 公司地址              |           |
-| bankName    | Text(short text) |               | 银行名称              |           |
-| bankAccount | Text(short text) |               | 公司账户              |           |
-| telephone   | Text(short text) |               | 电话                |           |
-| email       | Text(short text) |               | 接收邮箱              |           |
-| invoiceType | Enumeration      |               | 发票类型（必填）：pupiao \ | zhuanpiao |
-| user        | Relation         | User          |                   |           |
-| isDefault   | Boolean          |               | 是否为默认             |           |
+| Name        | Type             | Relation With | Description       |
+|-------------|------------------|---------------|-------------------|
+| type        | Enumeration      |               | 抬头类型（必填）：person \| company   |
+| name        | Text(short text) |               | 姓名或公司名称（必填）       |
+| cid         | Text(short text) |               | （公司）纳税人识别号（公司必填）  |
+| address     | Text(short text) |               | 公司地址              |
+| bankName    | Text(short text) |               | 银行名称              |
+| bankAccount | Text(short text) |               | 公司账户              |
+| telephone   | Text(short text) |               | 电话                |
+| email       | Text(short text) |               | 接收邮箱              |
+| invoiceType | Enumeration      |               | 发票类型（必填）：pupiao \| zhuanpiao |
+| user        | Relation         | User          |                   |
+| isDefault   | Boolean          |               | 是否为默认             |
