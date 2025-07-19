@@ -2,17 +2,18 @@
 
 ## 字段
 
-| Type      | Relation With       | Description |                   |
-|-----------|---------------------|-------------|-------------------|
-| name      | Text(short text)    |             | 资源包名称             |
-| type      | Enumeration         |             | 资源包类型             |
-| total     | Number(big integer) |             | 资源包总量（以 byte 为单位） |
-| area      | Enumeration         |             | 加速区域              |
-| effTime   | Date(datetime)      |             | 生效时间              |
-| expTime   | Date(datetime)      |             | 失效时间              |
-| remain    | Number(big integer) |             | 剩余量（以 byte 为单位）   |
-| user      | Relation            | User        |                   |
-| pkgStatus | Enumeration         |             | CDN资源包状态          |
+| Name      | Type                | Relation With | Description       |
+|-----------|---------------------|---------------|-------------------|
+| name      | Text(short text)    |               | 资源包名称             |
+| type      | Enumeration         |               | 资源包类型             |
+| total     | Number(big integer) |               | 资源包总量（以 byte 为单位） |
+| area      | Enumeration         |               | 加速区域              |
+| effTime   | Date(datetime)      |               | 生效时间              |
+| expTime   | Date(datetime)      |               | 失效时间              |
+| remain    | Number(big integer) |               | 剩余量（以 byte 为单位）   |
+| user      | Relation            | User          |                   |
+| pkgStatus | Enumeration         |               | CDN资源包状态          |
+
 
 
 
