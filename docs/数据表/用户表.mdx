@@ -8,29 +8,28 @@
 
 > strapi 默认的注册流程只能支持邮箱，手机号无法通过默认注册流程，因此需要暂时采用迂回手段。
 
-| Name                    | Type          | Relation With | Description         |
-| ----------------------- | ------------- | ------------- | ------------------- |
-| username                | Text          |               | 用户名。默认同邮箱     |
-| email                   | Email         |               | 邮箱                 |
-| provider                | Text          |               | 暂时不用              |
-| password                | Password      |               | 密码                    |
-| resetPasswordToken      | Text          |               | 重置密码的 token         |
-| confirmationToken       | Text          |               | 邮箱确认码               |
-| confirmed               | Boolean       |               | 邮箱是否已确认             |
-| blocked                 | Boolean       |               | 是否被禁                |
-| role                    | Relation      | Role          | 角色。默认值为 Public，实名认证后为 Authenticated |
-| avatar                  | Media(single) |               | 头像                  |
-| mobile                  | Text          |               | 手机号                 |
-| mobileConfirmed         | Boolean       |               | 手机号是否已确认            |
-| mobileConfirmationToken | Text          |               | 手机号确认码              |
-| amount                  | Number(float) |               | 充值总额                  |
-| balance                 | Number(float) |               | 余额                  |
-| invoiceBalance          | Number(float) |               | 可开票金额                  |
-| signInLogs              | Relation      | Sign In Log   | 关联登录日志              |
-| tickets                 | Relation      | Ticket        | 关联工单                |
-| invoices                | Relation      | Invoice       | 关联发票表                |
-| invoiceTitles           | Relation      | Invoice Title | 关联发票抬头表                |
-| tasks                   | Relation      | Task          | 关联消息队列表                |
-| cdnPackages             | Relation      | CDN Package   | 关联 CDN 资源包表                |
-| orders                  | Relation      | Order         | 关联发票抬头表                |
-
+| Name                    | Type             | Relation With | Description                         |
+|-------------------------|------------------|---------------|-------------------------------------|
+| username                | Text             |               | 用户名。默认同邮箱                           |
+| email                   | Email            |               | 邮箱                                  |
+| provider                | Text             |               | 暂时不用                                |
+| password                | Password         |               | 密码                                  |
+| resetPasswordToken      | Text             |               | 重置密码的 token                         |
+| confirmationToken       | Text             |               | 邮箱确认码                               |
+| confirmed               | Boolean          |               | 邮箱是否已确认                             |
+| blocked                 | Boolean          |               | 是否被禁                                |
+| role                    | Relation         | Role          | 角色。默认值为 Public，实名认证后为 Authenticated |
+| avatar                  | Media(single)    |               | 头像                                  |
+| mobile                  | Text(short text) |               | 手机号                                 |
+| mobileConfirmed         | Boolean          |               | 手机号是否已确认                            |
+| mobileConfirmationToken | Text(short text) |               | 手机号确认码                              |
+| amount                  | Number(float)    |               | 充值总额                                |
+| balance                 | Number(float)    |               | 余额                                  |
+| invoiceBalance          | Number(float)    |               | 可开票金额                               |
+| signInLogs              | Relation         | Sign In Log   | 关联登录日志                              |
+| tickets                 | Relation         | Ticket        | 关联工单                                |
+| invoices                | Relation         | Invoice       | 关联发票表                               |
+| invoiceTitles           | Relation         | Invoice Title | 关联发票抬头表                             |
+| tasks                   | Relation         | Task          | 关联消息队列表                             |
+| cdnPackages             | Relation         | CDN Package   | 关联 CDN 资源包表                         |
+| orders                  | Relation         | Order         | 关联发票抬头表                             |

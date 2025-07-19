@@ -1,11 +1,11 @@
 # CDN Domain（CDN域名）
 
-| Name         | Type        | Relation With | Description                                          |
-| ------------ | ----------- | ------------- | ---------------------------------------------------- |
-| domain       | String      |               |                                                      |
-| config       | JSON        |               |                                                      |
-| cname        | String      |               | 我们自己分配的 cname，为 null 时用 upCname 字段                   |
-| upCname      | String      |               | 上游厂商分配的 cname                                        |
-| upstream     | Enumeration |               | [上游接入商](../厂商名称.mdx)                                 |
-| domainStatus | Enumeration |               | active（正常使用） \| disabled(用户主动停用) \| blocked（管理员设为禁用） |
-| user         | Relation    | User          |                                                      |
+| Name         | Type             | Relation With | Description                        |                    |                  |
+|--------------|------------------|---------------|------------------------------------|--------------------|------------------|
+| domain       | Text(short text) |               |                                    |                    |                  |
+| config       | JSON             |               |                                    |                    |                  |
+| cname        | Text(short text) |               | 我们自己分配的 cname，为 null 时用 upCname 字段 |                    |                  |
+| upCname      | Text(short text) |               | 上游厂商分配的 cname                      |                    |                  |
+| upstream     | Enumeration      |               | [上游接入商](../厂商名称.mdx)               |                    |                  |
+| domainStatus | Enumeration      |               | active（正常使用） \                     | disabled(用户主动停用) \ | blocked（管理员设为禁用） |
+| user         | Relation         | User          |                                    |                    |                  |
