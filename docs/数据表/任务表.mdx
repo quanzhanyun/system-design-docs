@@ -1,14 +1,14 @@
 # task（消息队列任务表）
 
 
-| Name       | Type        | Relation With | Description                                            |
-| ---------- | ----------- | ------------- | ------------------------------------------------------ |
-| type       | Enumeration |               | 功能分类：domain \| dns \| sms \| email 等             |
-| queueName  | String      |               | 消息队列名称                                           |
-| taskName   | String      |               | 任务名称                                               |
-| request    | JSON        |               | 任务参数                                               |
-| taskStatus | Enumeration |               | pending \| resolve \| reject                           |
-| response   | JSON        |               | 任务结果（无论成功与否都要保存结果）                   |
-| user       | Relation    | User          |                                                        |
-| operand     | String      |               | 操作对象。对于域名来说就是域名；对于短息来说就是手机号 |
+| Name       | Type             | Relation With | Description                 |           |        |         |
+|------------|------------------|---------------|-----------------------------|-----------|--------|---------|
+| type       | Enumeration      |               | 功能分类：domain \               | dns \     | sms \  | email 等 |
+| queueName  | Text(short text) |               | 消息队列名称                      |           |        |         |
+| taskName   | Text(short text) |               | 任务名称                        |           |        |         |
+| request    | JSON             |               | 任务参数                        |           |        |         |
+| taskStatus | Enumeration      |               | pending \                   | resolve \ | reject |         |
+| response   | JSON             |               | 任务结果（无论成功与否都要保存结果）          |           |        |         |
+| user       | Relation         | User          |                             |           |        |         |
+| operand    | Text(short text) |               | 操作对象。对于域名来说就是域名；对于短息来说就是手机号 |           |        |         |
 

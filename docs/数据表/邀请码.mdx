@@ -1,8 +1,7 @@
 # Beta Code（邀请码表）
 
-| Name | Type     | Relation With | Description  |
-| ---- | -------- | ------------- | ------------ |
-| code | Text     |               | 邀请码          |
-| note | Text     |               | 备注        |
-| User | Relation | User          | 关联用户。与用户单向关联 |
-
+| Name | Type             | Relation With | Description     |
+|------|------------------|---------------|-----------------|
+| code | Text(short text) |               | 邀请码             |
+| note | Text(short text) |               | 备注              |
+| user | Relation         | User          | 关联用户。与用户一对一单向关联 |
