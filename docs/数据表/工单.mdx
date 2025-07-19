@@ -5,6 +5,8 @@
 | title    | Text     |               |             |
 | ticketStatus | Enumeration |           | 状态       |
 | priority | Enumeration |               | 优先级      |
+| category | Enumeration |               | 分类      |
+| agentID  | UID         |               | 处理此工单的专属客服 ID。客服信息来源于 Admin 系统。      |
 | messages | Relation | Ticket Messages |             |
 | user     | Relation | User          |             |
 
@@ -13,4 +15,6 @@
 | Name    | Type         | Relation With | Description |
 | ------- | ------------ | ------------- | ----------- |
 | content | Text         |               |             |
-| images  | Media(multi) |     
+| images  | Media(multi) |               |             |
+| agentId | UID          |               | 对应管理系统中的客服 ID。对于有多个客服参与服务的情况，用此 ID 区分。客服信息来源于 Admin 系统。 |
+| ticket  | Relation     |  Ticket       |             |
