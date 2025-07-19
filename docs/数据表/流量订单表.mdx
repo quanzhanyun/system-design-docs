@@ -1,13 +1,12 @@
-# orders（流量订单表）
+# Order（流量订单表）
 
 
-| Name       | Type        | Relation With | Description                                            |
-| ---------- | ----------- | ------------- | ------------------------------------------------------ |
-| order_id  | Number      |               | 订单号                                      |
-| odrer_status  | Enumeration      |               | 订单状态 pending, paid, unshipped, shipped, canceled     |
-| amount  | Float      |               | 订单金额                                      |
-| pay_time  | Date      |               | 支付时间                                      |
-| type       | Enumeration |               | 订单类型              |
-| order_items  | Object      |               | 订单详情，不同的订单以对象形式存储                                      |
-| user       | Relation    | User          |                                                        |
+| Name        | Type           | Relation With | Description       |        |             |           |          |
+|-------------|----------------|---------------|-------------------|--------|-------------|-----------|----------|
+| odrerStatus | Enumeration    |               | 订单状态 pending \    | paid \ | unshipped \ | shipped \ | canceled |
+| amount      | Number(float)  |               | 订单金额              |        |             |           |          |
+| payTime     | Date(datetime) |               | 支付时间              |        |             |           |          |
+| type        | Enumeration    |               | 订单类型              |        |             |           |          |
+| item        | JSON           |               | 订单详情，不同的订单以对象形式存储 |        |             |           |          |
+| user        | Relation       | User          |                   |        |             |           |          |
 

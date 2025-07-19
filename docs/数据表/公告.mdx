@@ -1,8 +1,8 @@
 # Notice（公告）
 
-| Name     | Type     | Relation With | Description |
-| -------- | -------- | ------------- | ----------- |
-| title    | Text     |               |     标题        |
-| content | Text      |           | 内容       |
-| top | Boolean |               | 是否置顶      |
-| user     | Relation | User          |    关联用户则单用户收到信息，不关联发给全体用户         |
+| Name    | Type                 | Relation With | Description                     |
+|---------|----------------------|---------------|---------------------------------|
+| title   | Text(short text)     |               | 标题                              |
+| content | Rich Text (Markdown) |               | 正文                              |
+| top     | Boolean              |               | 是否置顶                            |
+| user    | Relation(one way)    | User          | 单向关联用户。关联用户则指定用户收到信息，不关联则发给全体用户 |
