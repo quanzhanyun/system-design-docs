@@ -1,0 +1,8 @@
+# Notice（公告）
+
+| Name     | Type     | Relation With | Description |
+| -------- | -------- | ------------- | ----------- |
+| title    | Text     |               |     标题        |
+| content | Text      |           | 内容       |
+| top | Boolean |               | 是否置顶      |
+| user     | Relation | User          |    关联用户则单用户收到信息，不关联发给全体用户         |
