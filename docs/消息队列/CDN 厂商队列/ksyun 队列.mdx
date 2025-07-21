@@ -1,0 +1,63 @@
+# 金山队列
+
+队列名称：cdn_ksyun
+
+## [域名基础配置](https://docs.ksyun.com/directories/239?type=1)
+
+### 获取域名归属验证内容
+
+本接口用于获取域名归属权校验内容
+
+action: GetDomainAuthContent
+
+request 示例:
+
+- DomainName 需要验证的域名
+
+```
+{
+    DomainName: 'www.example.com',
+}
+```
+
+response 示例:
+
+```
+{
+    Content: 'f72f08c82d2da6653213665acb3dfba4',
+    RequestId: 'f83b736f-b66d-4b47-92cc-1e7c8e467b22'
+}
+```
+
+[阅读更多](https://docs.ksyun.com/documents/38826?type=3)
+
+### 域名归属权校验
+
+本接口用于域名归属校验，支持两种校验方式。
+
+action: AuthDomainOwner
+
+request 示例:
+
+- DomainName 需要验证的域名
+- AuthType 验证方式
+
+```
+{
+    DomainName: 'www.example.com',
+    AuthType: 'dnsCheck',
+}
+```
+
+response 示例:
+
+```
+{
+    Content: 'f72f08c82d2da6653213665acb3dfba4',
+    RequestId: 'b385c02a-fe77-4964-a0cd-479a4edb1018',
+    Result: 'failed'
+}
+```
+
+[阅读更多](https://docs.ksyun.com/documents/38827?type=3)
+
