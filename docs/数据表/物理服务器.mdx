@@ -1,0 +1,44 @@
+# Bare Metal Server（物理服务器）
+
+注：本表及功能暂时用于记录用户所购物理服务器情况并在用户侧后台展示给用户看，用户无法在后台对服务器进行任何操作，
+因此需要给用户一个明确提示：有事联系销售或客服。
+
+本表中的记录条目只能由管理员在 strapi 后台创建及修改！
+
+
+| Name     | Type             | Relation With | Description |
+| -------- | ---------------- | ------------- | ----------- |
+| spec     | Text(short text) |               | 配置详情。不展示给用户，用于记录上游厂商给的配置单     |
+| core     | Number           |               | 核心数     |
+| memory   | Number           |               | 内存容量（单位 G）     |
+| storage  | Number           |               | 存储容量（单位 G）      |
+| effTime  | Date(datetime)   |               | 生效时间        |
+| expTime  | Date(datetime)   |               | 失效时间        |
+| location | Enumeration      |               | 位置或所在机房     |
+| user     | Relation         | User          | 所属用户        |
+| ip       | Text(short text) |               |             |
+| os       | Enumeration      |               | 操作系统        |
+| bandwidth       | Number      |               | 带宽（单位 MB）        |
+| line       | Enumeration      |               | 线路        |
+| price       | Number      |               | 价格（单位 元）        |
+| paid       | Boolean      |               | 是否已付款        |
+
+# `location` 定义
+
+- 枣庄
+
+# `os` 定义
+
+- Ubuntu 24.04
+- Ubuntu 22.04
+- Debian 12.11
+- Windows Server 2025
+- CentOS Stream 9
+- CentOS Stream 10
+
+# `line` 定义
+
+- 联通
+- 移动
+- 电信
+- BGP
