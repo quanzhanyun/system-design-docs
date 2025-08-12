@@ -7,5 +7,44 @@
 | cname        | Text(short text) |               | 我们自己分配的 cname，为 null 时用 upCname 字段 |
 | upCname      | Text(short text) |               | 上游厂商分配的 cname                      |
 | upstream     | Enumeration      |               | [上游接入商](../厂商名称.mdx)               |
-| domainStatus | Enumeration      |               | active（正常使用） \| disabled(用户主动停用) \| blocked（管理员设为禁用） |
+| domainStatus | Enumeration      |               | active（正常使用） \| deleting(删除中) \| deleted(已删除) \| blocked（管理员设为禁用） |
 | user         | Relation         | User          |                                    |
+
+
+## domainStatus 状态说明
+
+首先，域名的状态分为 `上游状态` 和 `本地状态`。
+
+`上游状态` 反映的是域名在上游厂商处的底层状态，对应 `config` 中的 [`DomainStatus`](https://docs.ksyun.com/documents/196#3) 属性；`本地状态` 是我们自己对域名的管理，对应 `domainStatus` 字段。
+
+### active 状态
+
+正常状态（穿透状态）。处于此状态时，前端页面展示域名状态时需要获取 `config` 中的 `DomainStatus` 属性并展示，本质是展示上游的底层状态。
+
+比如，用户要停止域名时，调用上游接口停止域名即可。
+
+### deleting 状态
+
+当用户删除域名时，我们需要将域名的本地状态设置为 `deleting`。
+
+考虑到计费的问题，用户删除域名时我们并不会直接调用上游接口将域名删除，而是：
+
+1. 将域名的本地状态设置为  `deleting`。
+2. 调用上游接口停止域名
+3. 等待一段时间（比如三天），等上游统计同步之后，我们完成计费
+4. 调用上游接口删除域名
+
+其中，前两步由前端直接操作数据库并向消息队列发送停止域名的消息。
+
+消息队列完成后两步的计费以及调用上游接口删除域名的操作。注意：我们在本地数据库中并不会真正删除域名的信息和计费日志，而是将域名设置为 `deleted` 状态（TODO：考虑将 `deleted` 域名迁移到其它的表中作为历史记录存储）。
+
+重要的是完成计费！！！
+
+### deleted 状态
+
+用户的域名已被删除，这又两层意思：一是用户的域名在上游已经被删除了；二是用户的域名在本地数据库中仍然存在，只是不再展示给用户看、也不会再继续计费。（TODO：考虑将 `deleted` 域名迁移到其它的表中作为历史记录存储）
+
+
+### blocked 状态
+
+由管理员主动将用户的域名禁用。这一操作需要将用户的域名设置为 `blocked` 状态并调用上游接口停止域名。
