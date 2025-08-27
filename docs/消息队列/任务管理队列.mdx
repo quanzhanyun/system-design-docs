@@ -1,0 +1,117 @@
+---
+sidebar_position: 6
+---
+
+# 任务管理队列
+
+## save_task 队列
+
+任务结果保存队列，负责收集子任务的执行结果并保存到 Strapi 任务管理系统中。
+
+### 队列配置
+
+- **队列名称**: `save_task`
+- **Worker**: `save_task.worker.js`
+- **并发数**: 1
+
+### 数据结构
+
+```javascript
+{
+    taskId: 'string',           // 必填：任务 ID
+    clearRepeater: boolean      // 可选：是否清理 repeater 包裹层
+}
+```
+
+### 功能特性
+
+#### 1. 子任务结果收集
+
+使用 BullMQ Flow 机制收集所有子任务的执行结果：
+
+```javascript
+const childResults = await job.getChildrenValues()
+```
+
+#### 2. Repeater 包裹层清理
+
+当 `clearRepeater: true` 时，会自动清理 `bull:repeater:` 包裹层，将嵌套的子任务结果提升到顶层：
+
+**清理前结构**：
+```javascript
+{
+  "bull:sync_cdn_ksyun_config:xxx": { /* 结果 */ },
+  "bull:repeater:yyy": {
+    "ok": 0,
+    "message": "success", 
+    "children": {
+      "bull:cdn_ksyun:zzz": { /* 实际子任务结果 */ }
+    }
+  }
+}
+```
+
+**清理后结构**：
+```javascript
+{
+  "bull:sync_cdn_ksyun_config:xxx": { /* 结果 */ },
+  "bull:cdn_ksyun:zzz": { /* 提升到顶层的子任务结果 */ }
+}
+```
+
+#### 3. 任务状态更新
+
+将收集到的结果保存到 Strapi 任务管理系统：
+
+```javascript
+await strapiClient.collection('tasks').update(taskId, {
+    taskStatus: 'resolve',
+    response: processedResults
+})
+```
+
+### 使用场景
+
+- **Flow 编排任务**：作为 Flow 的根任务，收集所有子任务结果
+- **批量任务管理**：统一管理多个相关任务的执行状态
+- **结果聚合**：将分散的子任务结果汇总到一个地方
+
+## repeater 队列
+
+任务中继器队列，用于在 Flow 中包装和传递子任务的执行结果。
+
+### 队列配置
+
+- **队列名称**: `repeater`
+- **Worker**: `repeater.worker.js`
+- **并发数**: 1
+
+### 功能特性
+
+#### 1. 子任务结果中继
+
+- 等待所有子任务执行完成
+- 收集子任务执行结果
+- 将结果包装在 `children` 字段中传递
+
+#### 2. 结果包装
+
+```javascript
+{
+    ok: 0,
+    message: 'success',
+    children: {
+        // 所有子任务的执行结果
+    }
+}
+```
+
+### 使用场景
+
+- **Flow 中间层**：在复杂的 Flow 中作为结果传递的中间节点
+- **结果包装**：为子任务结果提供统一的包装格式
+- **层级管理**：在多层嵌套的任务结构中管理执行层级
+
+### 与 save_task 的配合
+
+当 `save_task` 启用 `clearRepeater: true` 时，会自动处理 `repeater` 的包裹层，实现结果的扁平化处理。

@@ -1,0 +1,174 @@
+---
+sidebar_position: 7
+---
+
+# Flow 任务编排
+
+## 概述
+
+BullMQ Flow 提供了强大的任务编排能力，支持复杂的任务依赖关系和并行执行。本系统使用 Flow 来管理多个相关任务的执行顺序和结果收集。
+
+## 基本概念
+
+### 执行顺序
+
+- **同级并行**：同一个 `children` 数组中的任务并行执行
+- **层级依赖**：子任务完成后，父任务才会执行
+- **结果收集**：父任务通过 `job.getChildrenValues()` 获取所有子任务结果
+
+## 实际示例
+
+基于 `src/flows/test-flow.js` 的实际应用示例：
+
+### 1. Flow 结构定义
+
+```javascript
+import { FlowProducer } from 'bullmq'
+import { newRedis } from '#src/client/redis.js'
+
+const conn = newRedis()
+const flow = new FlowProducer({ connection: conn })
+
+const flowTree = {
+    name: 'stst',                    // Flow 根任务名称
+    queueName: 'save_task',          // 根队列：任务结果保存
+    data: {
+        taskId: 'd9ghboqxd237fuv34rufdmif',
+        clearRepeater: true          // 启用 repeater 清理
+    },
+    children: [
+        {
+            name: 'abab',            // 子任务 1：配置同步
+            queueName: 'sync_cdn_ksyun_config',
+            data: {
+                documentId: 'lid3l682am2d7b2pqi2czlui',
+                domain: 'test2.qzyun.cn'
+            }
+        },
+        {
+            name: 'rrrr',            // 子任务 2：任务中继器
+            queueName: 'repeater',
+            data: {},
+            children: [              // 嵌套子任务
+                {
+                    name: 'SetCacheRuleConfig',
+                    queueName: 'cdn_ksyun',
+                    data: {
+                        action: 'SetCacheRuleConfig',
+                        request: {
+                            "DomainId": "2D03VJW",
+                            "CacheRules": [{
+                                "CacheRuleType": "directory",
+                                "Value": "/",
+                                "CacheEnable": "on",
+                                "CacheTime": 3600,
+                                "RespectOrigin": "on"
+                            }]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 2. 执行流程图
+
+```
+                    [stst - save_task]
+                    ↑ (等待所有子任务完成)
+           ┌────────┴────────┐
+           │                 │
+    [abab - sync_cdn]  [rrrr - repeater]
+    (并行执行)              ↑ (等待子任务完成)
+                            │
+                    [SetCacheRuleConfig - cdn_ksyun]
+```
+
+### 3. 执行顺序说明
+
+1. **第一阶段（并行）**：
+   - `abab` (sync_cdn_ksyun_config) 和 `rrrr` (repeater) 同时启动
+   
+2. **第二阶段（嵌套）**：
+   - `rrrr` 启动后，其子任务 `SetCacheRuleConfig` (cdn_ksyun) 开始执行
+   
+3. **第三阶段（汇总）**：
+   - 所有子任务完成后，`stst` (save_task) 执行
+   - 收集所有子任务结果并保存到 Strapi
+
+### 4. 结果结构
+
+#### 原始结果结构
+```javascript
+{
+  "bull:sync_cdn_ksyun_config:32d9200d-xxx": {
+    "ok": 1,
+    "calls": [/* 调用记录 */]
+  },
+  "bull:repeater:d3f62cae-xxx": {
+    "ok": 0,
+    "message": "success",
+    "children": {
+      "bull:cdn_ksyun:ea21930c-xxx": {
+        "ok": 1,
+        "message": "success",
+        "response": "",
+        "calls": []
+      }
+    }
+  }
+}
+```
+
+#### 清理后结果结构（clearRepeater: true）
+```javascript
+{
+  "bull:sync_cdn_ksyun_config:32d9200d-xxx": {
+    "ok": 1,
+    "calls": [/* 调用记录 */]
+  },
+  "bull:cdn_ksyun:ea21930c-xxx": {
+    "ok": 1,
+    "message": "success", 
+    "response": "",
+    "calls": []
+  }
+}
+```
+
+## 最佳实践
+
+### 1. 任务设计原则
+
+- **单一职责**：每个任务只负责一个具体功能
+- **幂等性**：任务可以安全地重复执行
+- **错误处理**：每个任务都应该有适当的错误处理机制
+
+### 2. Flow 编排策略
+
+- **并行优先**：尽可能使用并行执行提高效率
+- **依赖最小化**：减少不必要的任务依赖关系
+- **结果清理**：使用 `clearRepeater` 简化结果结构
+
+### 3. 监控和调试
+
+- **日志记录**：每个 worker 都应该有详细的日志
+- **执行追踪**：通过任务 ID 追踪整个 Flow 的执行过程
+- **错误定位**：在 Flow 失败时能够快速定位问题任务
+
+## 创建和执行 Flow
+
+```javascript
+// 创建 Flow
+const job = await flow.add(flowTree)
+console.log('Flow created with Job ID:', job.job.id)
+
+// 监控 Flow 状态（可选）
+job.job.waitUntilFinished()
+    .then(result => console.log('Flow completed:', result))
+    .catch(error => console.error('Flow failed:', error))
+```
+
+这种 Flow 编排方式特别适合需要协调多个云服务操作的场景，如 CDN 配置更新、域名管理、统计数据同步等。
