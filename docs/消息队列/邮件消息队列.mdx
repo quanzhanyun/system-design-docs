@@ -1,5 +1,176 @@
 # 邮件消息队列
 
-- 队列名：mail
-- 消息名/消息类型：code | message
-- 消息体：`{to: "邮箱地址", msg: ""}`
+## 概述
+
+邮件消息队列用于异步发送电子邮件，基于 Resend 服务实现。支持发送验证码、通知消息和系统告警等各类邮件。
+
+## 队列配置
+
+- **队列名称**: `email`
+- **Worker 名称**: `email.worker.js`
+- **客户端**: Resend API
+- **发件地址**: `hello@notifications.qzyun.cn`
+
+## 消息格式
+
+### 基本结构
+
+```javascript
+{
+  action: 'sendEmail',  // 操作类型
+  request: {
+    from: '<发件人>',    // 可选，默认使用系统发件地址
+    to: '<收件人>',      // 必填，收件人邮箱地址
+    subject: '<主题>',   // 必填，邮件主题
+    text: '<内容>'       // 必填，邮件正文内容
+  }
+}
+```
+
+### 参数说明
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `action` | string | 是 | 固定值 `sendEmail` |
+| `request.from` | string | 否 | 发件人地址，默认 `hello@notifications.qzyun.cn` |
+| `request.to` | string/array | 是 | 收件人邮箱，支持单个或多个 |
+| `request.subject` | string | 是 | 邮件主题 |
+| `request.text` | string | 是 | 邮件正文（纯文本） |
+
+## 使用示例
+
+### 发送单个邮件
+
+```javascript
+import { createQueue } from '#src/utils/queue.js'
+
+const emailQueue = createQueue('email')
+
+// 发送验证码邮件
+await emailQueue.add('verification-code', {
+  action: 'sendEmail',
+  request: {
+    to: 'user@example.com',
+    subject: '验证码',
+    text: '您的验证码是：123456，5分钟内有效。'
+  }
+})
+
+// 发送系统通知
+await emailQueue.add('system-notification', {
+  action: 'sendEmail',
+  request: {
+    to: 'admin@example.com',
+    subject: '系统告警',
+    text: '数据库连接异常，请及时处理。'
+  }
+})
+```
+
+### 发送给管理员
+
+系统提供了快捷方法发送邮件给管理员组：
+
+```javascript
+import { sendEmailToAdmin } from '#src/client/resend.js'
+
+// 直接发送给管理员组
+await sendEmailToAdmin('紧急告警', '服务器CPU使用率超过90%')
+```
+
+管理员邮箱列表配置在 `src/client/resend.js` 中：
+```javascript
+const AdminEmailList = [
+  '3201719830@qq.com'
+]
+```
+
+## 返回格式
+
+### 成功响应
+
+```javascript
+{
+  ok: 1,
+  message: 'success',
+  response: {
+    id: 'email_id',      // Resend 返回的邮件ID
+    // 其他 Resend API 返回信息
+  }
+}
+```
+
+### 失败响应
+
+```javascript
+{
+  ok: 0,
+  message: 'fail',
+  response: {
+    // 错误详情
+  }
+}
+```
+
+## 任务命名规范
+
+建议使用有意义的任务名称，便于跟踪和调试：
+
+- `verification-code-{userId}` - 验证码邮件
+- `password-reset-{userId}` - 密码重置邮件
+- `welcome-{userId}` - 欢迎邮件
+- `notification-{type}-{id}` - 通知类邮件
+- `alert-{level}-{timestamp}` - 告警邮件
+
+## 配置要求
+
+### 环境变量
+
+在 `.env` 文件中配置 Resend API Key（如需修改）：
+
+```bash
+RESEND_API_KEY=re_xxx_xxxxx
+SENDER_EMAIL=hello@notifications.qzyun.cn
+```
+
+### Worker 启用
+
+确保在 `src/main.js` 中启用 email worker：
+
+```javascript
+const workers = [
+  // ... 其他 workers
+  'email',  // 启用邮件 worker
+]
+```
+
+## 错误处理
+
+Worker 内置了错误处理机制：
+- 自动记录错误日志到系统日志
+- 返回统一的错误响应格式
+- 支持 BullMQ 的重试机制（可配置）
+
+## 注意事项
+
+1. **API 限制**: Resend 有发送频率限制，避免短时间内发送大量邮件
+2. **邮件内容**: 目前仅支持纯文本内容，如需HTML邮件需要扩展功能
+3. **异步处理**: 邮件发送是异步的，添加任务后立即返回，实际发送在后台进行
+4. **队列持久化**: 邮件任务存储在 Redis 中，系统重启后会继续处理未完成的任务
+
+## 测试方法
+
+运行测试脚本：
+
+```bash
+node src/queue/email.queue.js
+```
+
+该脚本会发送一封测试邮件到指定邮箱。
+
+## 相关文件
+
+- Worker 实现: `src/worker/email.worker.js`
+- 队列定义: `src/queue/email.queue.js`
+- Resend 客户端: `src/client/resend.js`
+- 工具函数: `src/utils/queue.js`
