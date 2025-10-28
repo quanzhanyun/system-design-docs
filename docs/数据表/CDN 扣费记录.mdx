@@ -3,24 +3,19 @@
 | Name        | Type        | Relation With | Description |
 | ----------- | ----------- | ------------- | ----------- |
 | usageAmount | Number      |               | 使用量(单位 byte)         |
-| billTime    | DateTime    |               | 计费时间        |
+| billTimeEnd    | DateTime    |               | 计费结束时间        |
+| billTimeStart    | DateTime    |               | 计费起始时间        |
 | billStatus  | Enumeration |               | 结清状态,可取值为:  hold(锁定) \| paid(已支付)      |
 | user        | Relation    | User          |             |
 | domainName  | Text(short text)    |           |计费的域名             |
 
 
-统计使用量并从流量包中扣流量.
+统计使用量并从 User.cdnBalance 字段中扣流量或 User.cdnFrozenBalance 字段中预扣费。
 
 # 计费方案
 
-以金山云为例.最小统计颗粒度为 5 分钟,延迟一到两个颗粒度(5 - 10分钟).我们采取以下计费策略:
+参见 [统计与计费](../消息队列/统计与计费.mdx) 。
 
-1. 假定有  a,b,c,d 共 4 个颗粒度的时间点
-2. 设定每次获取流量数据的时间窗口包含3个颗粒度,即3各时间点的数据
-3. 第一次获取流量数据时,获取的是 a,b,c 3个时间点的流量数据
-4. 鉴于统计延迟的问题,我们将 a 时间点认定为获取的是准确数据, b,c 时间点获取的为不准确数据
-5. 用 a 时间点的数据从用户的账户中实际扣费,并在 CDN Bill 表中插入一条扣费记录,并将 billStatus 设置为 paid 状态.
-6. 用 b,c 时间点的数据从用户的账户中锁定费用,并在 CDN Bill 表中各插入一条锁定消费金额,并将 billStatus 设置为 hold 状态.
-7. 第二次获取流量数据时,获取的是  b,c,d 3各时间点的流量数据
-8. 将第一次获取流量时,b 时间点锁定的消费金额退回到用户账户中,然后用最新的 b 时间点的数据从用户的账户中实际扣费,并在 CDN Bill 表中插入一条扣费记录,并将 billStatus 设置为 paid 状态.
-9. 依次往复
+另外，预扣费时，在 User.cdnFrozenBalance 字段中记录统计时间段内预扣费的总流量，并设置 billStatus 为 hold 状态，当实际扣费时，重新生成一条记录，并且将 billStatus 设置为 paid 状态，预扣费和实际扣费可能不是同一个时间段。
+
+总之，本表中的记录作为回溯流水的记录、凭证。
