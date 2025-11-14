@@ -3,11 +3,11 @@
 
 | Name        | Type           | Relation With | Description       |
 |-------------|----------------|---------------|-------------------|
-| odrerStatus | Enumeration    |               | 订单状态 pending \| paid \| unshipped \| shipped \| canceled |
+| odrerStatus | Enumeration    |               | 订单状态 pending \| paid \| canceled |
 | amount      | Number(float)  |               | 订单金额              |
 | paidTime    | Date(datetime) |               | 完成支付的时间              |
 | paidChannel | Enumeration    |               | 完成支付所用的渠道   balance \| aliPay \| weixinPay           |
 | type        | Enumeration    |               | 订单类型 cdn \| certificate \| bareMetal             |
 | item        | JSON           |               | 订单详情，不同的订单以对象形式存储 |
 | user        | Relation       | User          |                   |
-
+| note        | Text           |               | 内部人员使用，注释。例如：订单改价时作说明                  |
