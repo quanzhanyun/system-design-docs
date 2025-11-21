@@ -1,0 +1,11 @@
+# Organization（政企实名信息）
+
+| Name | Type             | Relation With | Description     |
+|------|------------------|---------------|-----------------|
+| name | Text(short text) |               | 公司名称。不展示给用户、不让用户填充，后台审核时补全            |
+| licenseNumber | Text(short text) |               | 证件证号。不展示给用户、不让用户填充，后台审核时补全             |
+| licenseType | Enum |               | 证件类型。 暂时保留       |
+| passed | Boolean |               | 是否完成认证流程。  默认值 false            |
+| user | Relation         | User          | 关联用户。与用户多对一关联 |
+| licenseImage | Media |               | 证件照片           |
+| docImage | Media |               | 授权书照片           |

@@ -1,0 +1,20 @@
+# Individual（个人实名信息）
+
+| Name | Type             | Relation With | Description     |
+|------|------------------|---------------|-----------------|
+| name | Text(short text) |               | 姓名             |
+| idCardNumber | Text(short text) |               | 证件号码            |
+| idCardType | Enum |               | 证件类型。 取值如下 。默认值：    IDENTITY_CARD       |
+| passed | Boolean |               | 是否完成认证流程。  默认值 false            |
+| user | Relation         | User          | 关联用户。与用户多对一关联 |
+
+
+
+idCardType 类型如下：
+
+身份证: IDENTITY_CARD
+港澳居民来往内地通行证: HOME_VISIT_PERMIT_HK_MC
+台湾居民来往内地通行证: HOME_VISIT_PERMIT_TAIWAN
+港澳居民居住证: RESIDENCE_PERMIT_HK_MC
+台湾居民居住证: RESIDENCE_PERMIT_TAIWAN
+外国人永久居住证: PERMANENT_RESIDENCE_FOREIGNER
