@@ -7,7 +7,7 @@
 | cname        | Text(short text) |               | 我们自己分配的 cname，为 null 时用 upCname 字段 |
 | upCname      | Text(short text) |               | 上游厂商分配的 cname                      |
 | upstream     | Enumeration      |               | [上游接入商](../厂商名称.mdx)               |
-| domainStatus | Enumeration      |               | active（正常使用） \| deleting(删除中) \| deleted(已删除) \| blocked（管理员设为禁用） |
+| domainStatus | Enumeration      |               | active（正常使用）\| starting(启动中) \| stopping(停止中) \| configuring(配置中)  \| deleting(删除中) \| deleted(已删除) \| blocked（管理员设为禁用） |
 | user         | Relation         | User          |                                    |
 | certificate         | Relation(多对一)         | Certificate |                                    |
 
@@ -22,6 +22,23 @@
 正常状态（穿透状态）。处于此状态时，前端页面展示域名状态时需要获取 `config` 中的 `DomainStatus` 属性并展示，本质是展示上游的底层状态。
 
 比如，用户要停止域名时，调用上游接口停止域名即可。
+
+### starting 状态
+
+由于上游对域名的停止、启用 只分配了完成态标记（online、offline），对域名处于“启用中”和“停用中”状态无法表示，因此在本地状态中增加了 starting 和 stopping 状态，用于标记状态的过渡。
+
+当用户将上游处于 offline 状态的域名启用时 ，域名的本地状态处于 starting 状态，等启动成功后，本地状态改为 active 状态。
+
+
+### stopping 状态
+
+当用户将上游处于 online 状态的域名停用时 ，域名的本地状态处于 stopping 状态，等停用操作成功后，本地状态改为 active 状态。
+
+### configuring 状态
+
+虽然上游有此状态，但是向上游提交配置并等待上游更新状态有时间差，考虑到向用户反馈的效率，我们自己设一个 configuring 字段。
+每次修改配置时将本地状态设置为 configuring，配置完成后将状态改为 active
+
 
 ### deleting 状态
 
