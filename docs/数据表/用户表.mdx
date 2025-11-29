@@ -50,6 +50,7 @@
 | cdnDomainQuota          | Number(integer)  |               | CDN 域名配额。默认 5，即，用户所添加的域名超过限额后就不允许再新加了，但已经存在的域名不受限制。  |
 | cdnDomains              | Relation         | CDN Domain    | 关联 CDN Domain 表                         |
 | certificates            | Relation         | Certificate   | 关联 Certificate 表                         |
-| realNameAuth            | Enum             |               | 实名认证状态，默认取值 null 或空值表示未进行任何认证。可取值：indiv \| org |
+| realNameAuth            | Enum             |               | 实名认证状态，默认取值 null 或空值表示未进行任何认证。可取值：indiv \| org |null \|
 | individuals             | Relation         | Individual   | 关联 Individual 表                         |
 | organizations           | Relation         | Organizations   | 关联 Organizations 表                         |
+
