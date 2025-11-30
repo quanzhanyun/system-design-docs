@@ -1,0 +1,16 @@
+# OTP Token（一次性 Token 登录）
+
+用于实现管理侧一键登录用户侧任意用户的功能。
+
+一键登录的实现步骤如下：
+1. 管理侧首先向 OTP Token 表中插入一条新生成的 token，并设置过期时间以及关联登录的目标用户
+2. 管理侧生成一个链接，链接后面附带 token 以及 identifier 作为参数。该链接属于用户侧链接
+3. 用户侧根据上述链接所提供的 token 和 identifier 参数在 OTP Token 表中找到对应的 token 及用户，并生成 jwt
+4. 用户侧将 jwt 种到浏览器端，并跳转到功能页面。最终实现一键登录任意用户
+
+
+| Name     | Type             | Relation With | Description |
+| -------- | ---------------- | ------------- | ----------- |
+| token     | Text(short text) |               | token。     |
+| expiresAt     | Datetime           |               | 此 token 的过期时间     |
+| user     | Relation         | User(one-to-one,one way)          | 所属用户        |
